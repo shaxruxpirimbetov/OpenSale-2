@@ -25,6 +25,7 @@ THIRD_APPS = [
 LOCAL_APPS = [
     "apps.user",
     "apps.product",
+    "apps.page",
 ]
 INSTALLED_APPS = DJANGO_APPS + THIRD_APPS + LOCAL_APPS
 
@@ -44,7 +45,7 @@ ROOT_URLCONF = 'OpenSale.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ["dist"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, parsers
 from rest_framework.response import Response
 
+from apps.user.permissions import IsSeller, IsMine
 from .models import ProductImage, Product
 from .serializers import ProductSerializer, ProductImageSerializer, CreateProductSerializer
 
@@ -16,7 +17,7 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
 
     def get_permissions(self):
         if self.request.method in ["POST"]:
-            return [permissions.IsAuthenticated()]
+            return [IsSeller()]
         return [permissions.AllowAny()]
 
     def create(self, request, *args, **kwargs):
@@ -32,7 +33,11 @@ class ProductListCreateAPIView(generics.ListCreateAPIView):
         return Response(ProductSerializer(serializer.instance).data, status=201, headers=headers)
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [permissions.AllowAny()]
+        return [IsMine()]

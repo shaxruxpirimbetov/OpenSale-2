@@ -13,6 +13,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/user/", include("apps.user.urls")),
     path("api/product/", include("apps.product.urls")),
+    path("", include("apps.page.urls")),
 
     path("api/token/", TokenObtainPairView.as_view()),
     path("api/refresh/", TokenRefreshView.as_view()),
