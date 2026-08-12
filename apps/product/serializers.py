@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import Product, ProductImage
+from apps.user.serializers import ResponseUserSerializer
+
 
 class ProductImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,6 +10,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     product_image = ProductImageSerializer(many=True, read_only=True)
+    user = ResponseUserSerializer(read_only=True)
     class Meta:
         model = Product
         fields = "__all__"

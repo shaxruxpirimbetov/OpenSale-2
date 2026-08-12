@@ -3,4 +3,5 @@ from django.db import models
 
 class User(AbstractUser):
     is_seller = models.BooleanField(default=False)
-    location = models.JSONField(default=dict)
+    latitude = models.FloatField(default=0)
+    longitude = models.FloatField(default=0)
