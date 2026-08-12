@@ -1,3 +1,4 @@
+import urllib
 from pathlib import Path
 from decouple import config
 from datetime import datetime, timedelta
@@ -66,12 +67,16 @@ WSGI_APPLICATION = 'OpenSale.wsgi.application'
 DATABASE_URL = config("DATABASE_URL", default="")
 
 if DATABASE_URL:
+    _url = urllib.parse.urlparse(DATABASE_URL)
     DATABASES = {
-        'default': dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=True,
-        )
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': _url.path.lstrip('/'),
+            'USER': _url.username,
+            'PASSWORD': _url.password,
+            'HOST': _url.hostname,
+            'PORT': _url.port,
+        }
     }
 else:
     DATABASES = {
